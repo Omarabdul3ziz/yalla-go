@@ -12,24 +12,19 @@ func check(e error) {
 	}
 }
 
+type Config map[string]map[string]string
+
 type Parser struct {
-	config    map[string]map[string]string
 	file_path string
 }
 
-func (p *Parser) init() {
-	p.config = make(map[string]map[string]string)
-}
-
-func (p *Parser) read() {
+func (p *Parser) read() Config {
 	file, err := os.ReadFile(p.file_path)
-
 	check(err)
 
-	data := string(file)
+	lines := strings.Split(string(file), "\n")
 
-	lines := strings.Split(data, "\n")
-
+	var content = Config{}
 	var current_section string
 
 	for _, line := range lines {
@@ -40,20 +35,22 @@ func (p *Parser) read() {
 				continue
 			case "[":
 				current_section = line[1 : len(line)-1]
-				p.config[current_section] = map[string]string{}
+				content[current_section] = map[string]string{}
 			default:
 				filed := strings.Split(line, " = ")
 				key, value := string(filed[0]), string(filed[1])
-				p.config[current_section][key] = value
+				content[current_section][key] = value
 			}
 		}
 	}
+
+	return content
 }
 
-func (p *Parser) write() {
+func (p *Parser) write(config Config) {
 	content := ""
 
-	for title, body := range p.config {
+	for title, body := range config {
 		content += fmt.Sprintf("[%s]\n", title)
 		for key, value := range body {
 			content += fmt.Sprintf("%s = %s\n", key, value)
@@ -72,21 +69,14 @@ func (p *Parser) write() {
 
 func main() {
 
-	// p := Parser{
-	// 	file_path: "./test.ini",
-	// }
+	// p := Parser{file_path: "./test.ini"}
 
-	// p.init()
-	// p.read()
+	// config := p.read()
+	// fmt.Println(config["Deployment"]["public_ip"])
 
-	// fmt.Println(p.config)
+	p := Parser{file_path: "./test2.ini"}
 
-	p := Parser{
-		file_path: "./test2.ini",
-	}
-
-	p.init()
-	p.config = map[string]map[string]string{
+	config := Config{
 		"Profile": {
 			"name":     "jarvis",
 			"password": "secret",
@@ -100,6 +90,5 @@ func main() {
 		},
 	}
 
-	p.write()
-
+	p.write(config)
 }
