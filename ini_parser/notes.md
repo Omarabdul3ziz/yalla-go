@@ -1,0 +1,12 @@
+- [ ] Read
+- [ ] Write
+- [ ] Test
+---
+- read the whole file
+- seperate lines
+- categorize each line type
+- spread in map
+- access it
+
+- in first make it one level read('Section')
+- then dig deeper read('Section', 'Key')
