@@ -69,26 +69,26 @@ func (p *Parser) write(config Config) {
 
 func main() {
 
-	// p := Parser{file_path: "./test.ini"}
+	p := Parser{file_path: "./test.ini"}
 
-	// config := p.read()
-	// fmt.Println(config["Deployment"]["public_ip"])
+	config := p.read()
+	fmt.Println(config)
 
-	p := Parser{file_path: "./test2.ini"}
+	// p := Parser{file_path: "./test2.ini"}
 
-	config := Config{
-		"Profile": {
-			"name":     "jarvis",
-			"password": "secret",
-		},
-		"Deployment": {
-			"project":   "taiga",
-			"name":      "tg",
-			"public_ip": "true",
-			"cpu":       "4",
-			"memory":    "8192",
-		},
-	}
+	// config := Config{
+	// 	"Profile": {
+	// 		"name":     "jarvis",
+	// 		"password": "secret",
+	// 	},
+	// 	"Deployment": {
+	// 		"project":   "taiga",
+	// 		"name":      "tg",
+	// 		"public_ip": "true",
+	// 		"cpu":       "4",
+	// 		"memory":    "8192",
+	// 	},
+	// }
 
-	p.write(config)
+	// p.write(config)
 }
